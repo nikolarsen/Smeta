@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+#document.addEventListener("DOMContentLoaded", function () {
     const smetaBody = document.getElementById("smeta-body");
     const totalSpan = document.getElementById("total");
     const addRowButton = document.getElementById("add-row");
@@ -63,4 +63,34 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     addRow(); // Добавляем первую строку
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const captureBtn = document.getElementById("captureBtn");
+
+    captureBtn.addEventListener("click", async function () {
+        // Динамически загружаем html2canvas, если он не подключен
+        if (!window.html2canvas) {
+            await loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+        }
+
+        // Захватываем страницу
+        html2canvas(document.body).then(canvas => {
+            const imgData = canvas.toDataURL("image/jpeg", 1.0); // Преобразуем в JPEG
+            const link = document.createElement("a");
+            link.href = imgData;
+            link.download = "screenshot.jpg";
+            link.click();
+        });
+    });
+
+    // Функция загрузки скрипта
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
 });
