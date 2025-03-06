@@ -22,3 +22,10 @@ self.addEventListener("fetch", event => {
         })
     );
 });
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log("Service Worker зарегистрирован"))
+            .catch(err => console.error("Ошибка регистрации SW:", err));
+    }
+</script>
